@@ -1,0 +1,126 @@
+# @lg-sh on github
+
+# ---- I3WM CONFIG ----
+
+set $mod Mod4	 
+floating_modifier $mod
+tiling_drag modifier titlebar
+
+
+# ---- LOOK ----
+
+# fonte, wallpaper
+font pango: Hack 10
+exec_always --no-startup-id feh --bg-fill #/home/usuario/Images/wallpaper/wallpaper.png
+
+# distância entre as janelas
+gaps inner 6
+gaps outer 6
+
+# variáveis de cores (Hex) - modifique as variáveis e defina as cores
+set $bg     #8c928e
+set $fg     #e2e2e6
+set $c1     #121214 
+set $c2     #18181b 
+set $c3     #ff5555 
+set $accent #7aa2f7 
+
+#                       borda    fundo   texto   indicador   borda_filha
+client.focused          $accent  $c1     $fg     $accent     $accent
+client.focused_inactive $c2      $c2     $fg     $c2         $c2
+client.unfocused        $c1      $c1     $bg     $c1         $c1
+client.urgent           $c3      $c3     $fg     $c3         $c3
+
+
+# ---- BAR ----
+
+bar {
+    position bottom
+	  status_command i3status -c ~/.config/i3status/i3status.conf 
+    font pango: JetBrainsMono Nerd Font 14
+
+        colors {
+                        background #08090a
+                        separator #181a1d
+
+                        #                   borda   fundo   texto
+                        focused_workspace   #050505 #0f1113 #00ff88
+                        #active_workspace   #0a0b0c #0a0b0c #d8dee9
+                        #inactive_workspace #08090a #08090a #555b63
+                        #urgent_workspace   #0a0a0a #0a0a0a #ff3b3b
+        }
+}
+
+
+# ---- KEYBINDS ----
+
+# gerenciamento de janelas
+bindsym $mod+q kill
+bindsym $mod+a focus parent
+bindsym $mod+F11 fullscreen toggle
+bindsym $mod+space floating toggle
+
+# recursos
+bindsym $mod+d exec rofi -show drun
+bindsym $mod+Return exec kitty
+
+# Prints utilizando o maim
+bindsym Print exec maim -s #/home/usuario/Images/screenshoots/$(date +%F_%T).png
+
+# teclas de ação
+bindsym $mod+v split toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# restart i3 
+bindsym $mod+Shift+r restart
+
+# exit i3 
+bindsym $mod+Shift+Escape exec "i3-nagbar -t warning -m 'Encerrar sessão do i3?' -B 'S, encerrar i3' 'i3-msg exit'"
+
+# Área de trabalho, necessita fonte nerd para carregar icons
+set $ws1 "1: 󰣇 "  # modifique pro icon do seu OS
+set $ws2 "2:  "
+set $ws3 "3:  "
+set $ws4 "4: 󰊖 "
+set $ws5 "5   "
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+
+
+# ---- SERVIÇOS  ----
+
+# inicialização
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+exec_always --no-startup-id picom -b
+
+# pulseaudio
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+

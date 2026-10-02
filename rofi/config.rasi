@@ -1,0 +1,64 @@
+/* @lg-sh on github - rofi theme */
+@theme "/dev/null"
+
+configuration {
+    modi:                "drun,run";
+    show-icons:          false;
+    drun-display-format: "{name}";
+}
+
+* {
+    background-color: #000000;
+    text-color:       #ffffff;
+    font:             "HackNerd 9";
+}
+
+window {
+    width:            500px;
+    padding:          20px;
+    border:           1px;
+    border-color:     #222222; /* Borda reta e sutil */
+    border-radius:    0px;     /* Remove o arredondado da janela */
+    background-color: #000000;
+}
+
+mainbox {
+    background-color: #000000;
+    children:         [ inputbar, listview ];
+    spacing:          10px;
+}
+
+inputbar {
+    background-color: #000000;
+    padding:          0px 0px 10px 0px;
+    children:         [ entry ];
+}
+
+entry {
+    background-color: #000001;
+    text-color:       #ffffff;
+    placeholder:      "Buscar...";
+    placeholder-color: #666666;
+}
+
+listview {
+    background-color: #000000;
+    lines:            6;
+    scrollbar:        false;
+}
+
+element {
+    padding:          8px;
+    background-color: #000000;
+    border-radius:    0px;     /* Remove o arredondado dos itens */
+}
+
+/* Item Selecionado */
+element selected {
+    background-color: #121212; 
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       inherit;
+}
